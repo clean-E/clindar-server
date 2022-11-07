@@ -3,7 +3,7 @@ import { ConfigModule as NestConfigModule } from '@nestjs/config';
 @Module({
   imports: [
     NestConfigModule.forRoot({
-      envFilePath: ['.env'],
+      envFilePath: ['./src/config/.env'],
       isGlobal: true,
     }),
   ],
