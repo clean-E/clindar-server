@@ -2,6 +2,21 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+type User {
+  _id: String!
+  nickname: String!
+  email: String!
+}
+
 type Query {
-  getUser(id: String!): Boolean!
+  getUser(id: String!): User!
+}
+
+type Mutation {
+  login(userInfo: UserInput!): User!
+}
+
+input UserInput {
+  nickname: String!
+  email: String!
 }
