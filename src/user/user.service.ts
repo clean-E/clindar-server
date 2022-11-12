@@ -3,7 +3,7 @@ import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User } from 'src/entities';
-import { UserInput } from './dto/create-user.dto';
+import { CreateUserInput } from './dto/create-user.dto';
 
 @Injectable()
 export class UserService {
@@ -15,8 +15,8 @@ export class UserService {
   async getUser(id: string): Promise<User> {
     return await this.userModel.findById(id);
   }
-  async login(userInfo: UserInput): Promise<User> {
-    const { email, nickname } = userInfo;
+  async login(userInfo: CreateUserInput): Promise<User> {
+    const { email } = userInfo;
 
     const userExists = await this.userModel.exists({ email });
     const session = await this.connection.startSession();
@@ -24,13 +24,7 @@ export class UserService {
       // 회원 정보가 없음, 첫 로그인 -> 유저 정보 생성
       session.startTransaction();
       try {
-        await this.userModel.create({
-          email,
-          nickname,
-          myGroupList: [],
-          myScheduleList: [],
-          myRecord: [],
-        });
+        await this.userModel.create(userInfo);
         await session.commitTransaction();
       } catch (error) {
         await session.abortTransaction();

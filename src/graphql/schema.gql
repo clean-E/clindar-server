@@ -13,10 +13,10 @@ type Query {
 }
 
 type Mutation {
-  login(userInfo: UserInput!): User!
+  login(userInfo: CreateUserInput!): User!
 }
 
-input UserInput {
+input CreateUserInput {
   nickname: String!
   email: String!
 }
