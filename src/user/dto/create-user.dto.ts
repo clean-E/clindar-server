@@ -5,6 +5,7 @@ import { User } from 'src/entities';
 export class CreateUserInput {
   @Field(() => String)
   nickname: string;
+
   @Field(() => String)
   email: string;
 }
