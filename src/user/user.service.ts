@@ -17,14 +17,14 @@ export class UserService {
   }
   async login(userInfo: CreateUserInput): Promise<User> {
     const { email } = userInfo;
+    let user = await this.userModel.findOne({ email });
 
-    const userExists = await this.userModel.exists({ email });
-    const session = await this.connection.startSession();
-    if (userExists === null) {
+    if (user === null) {
+      const session = await this.connection.startSession();
       // 회원 정보가 없음, 첫 로그인 -> 유저 정보 생성
       session.startTransaction();
       try {
-        await this.userModel.create(userInfo);
+        user = await this.userModel.create(userInfo);
         await session.commitTransaction();
       } catch (error) {
         await session.abortTransaction();
@@ -33,6 +33,6 @@ export class UserService {
         session.endSession();
       }
     }
-    return await this.userModel.findOne({ email });
+    return user;
   }
 }

@@ -1,17 +1,19 @@
-import { Field, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { Schedule } from './schedule.entity';
 
 @Schema()
 @ObjectType()
-export class User extends Document {
+export class User {
   @Field(() => String)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
 
+  @Prop()
   @Field(() => String)
   nickname: string;
 
+  @Prop()
   @Field(() => String)
   email: string;
   /*
