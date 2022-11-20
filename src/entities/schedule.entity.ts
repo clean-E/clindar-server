@@ -1,13 +1,13 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import mongoose, { Schema as MongooseSchema } from 'mongoose';
+import * as mongoose from 'mongoose';
 import { User } from './user.entity';
 
 @Schema()
 @ObjectType()
 export class Schedule {
   @Field(() => String)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
 
   @Prop()
   @Field(() => String)
@@ -25,7 +25,7 @@ export class Schedule {
   @Field(() => String)
   memo: string;
 
-  @Prop()
+  @Prop({ type: User, ref: 'User' })
   @Field(() => User)
   host: User;
 

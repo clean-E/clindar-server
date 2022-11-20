@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import { Schedule } from './schedule.entity';
 
 @Schema()
+@InputType()
 @ObjectType()
 export class User {
   @Field(() => String)
