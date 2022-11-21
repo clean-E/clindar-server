@@ -8,15 +8,49 @@ type User {
   email: String!
 }
 
+type Schedule {
+  _id: String!
+  when: String!
+  spot: String!
+  category: [String!]!
+  memo: String!
+  host: User!
+}
+
+input UserInput {
+  _id: String!
+  nickname: String!
+  email: String!
+}
+
+input ScheduleInput {
+  _id: String!
+  when: String!
+  spot: String!
+  category: [String!]!
+  memo: String!
+  host: UserInput!
+}
+
 type Query {
   getUser(id: String!): User!
+  getScheduleDetail(_id: String!): Schedule!
 }
 
 type Mutation {
   login(userInfo: CreateUserInput!): User!
+  createSchedule(schedule: CreateScheduleInput!): Schedule!
 }
 
 input CreateUserInput {
   nickname: String!
   email: String!
+}
+
+input CreateScheduleInput {
+  when: String!
+  spot: String!
+  category: [String!]!
+  memo: String!
+  host: String!
 }

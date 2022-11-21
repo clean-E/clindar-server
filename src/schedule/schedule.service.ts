@@ -11,6 +11,12 @@ export class ScheduleService {
     private readonly scheduleModel: Model<Schedule>,
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
+  async getScheduleDetail(_id: string): Promise<Schedule> {
+    const schedule = await this.scheduleModel.findById(_id);
+    await schedule.populate('host');
+    return schedule;
+  }
+
   async createSchedule(schedule: CreateScheduleInput): Promise<Schedule> {
     const session = await this.connection.startSession();
     let newSchedule;

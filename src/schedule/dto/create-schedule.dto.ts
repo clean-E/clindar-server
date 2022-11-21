@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import * as mongoose from 'mongoose';
 import { User } from 'src/entities';
 
 @InputType()
@@ -15,6 +16,6 @@ export class CreateScheduleInput {
   @Field(() => String)
   memo: string;
 
-  @Field(() => User)
-  host: User;
+  @Field(() => String)
+  host: mongoose.Types.ObjectId;
 }

@@ -4,8 +4,8 @@ import * as mongoose from 'mongoose';
 import { Schedule } from './schedule.entity';
 
 @Schema()
-@InputType()
-@ObjectType()
+@InputType('UserInput')
+@ObjectType('User')
 export class User {
   @Field(() => String)
   _id: mongoose.Types.ObjectId;
