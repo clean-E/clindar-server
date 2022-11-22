@@ -4,6 +4,8 @@ import * as mongoose from 'mongoose';
 import { Group } from './group.entity';
 import { Schedule } from './schedule.entity';
 
+export type UserDocument = User & mongoose.Document;
+
 @Schema()
 @InputType('UserInput')
 @ObjectType('User')
