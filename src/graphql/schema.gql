@@ -2,12 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type User {
-  _id: String!
-  nickname: String!
-  email: String!
-}
-
 type Schedule {
   _id: String!
   when: String!
@@ -17,10 +11,31 @@ type Schedule {
   host: User!
 }
 
-input UserInput {
+type Group {
+  _id: String!
+  groupName: String!
+  description: String!
+  secret: Boolean!
+  mainCategory: String!
+  age: [Int!]!
+  password: String!
+  leader: User!
+  createdAt: DateTime!
+  memberList: [User!]!
+  scheduleList: [Schedule!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type User {
   _id: String!
   nickname: String!
   email: String!
+  myScheduleList: [Schedule!]!
+  myGroupList: [Group!]!
 }
 
 input ScheduleInput {
@@ -30,6 +45,28 @@ input ScheduleInput {
   category: [String!]!
   memo: String!
   host: UserInput!
+}
+
+input GroupInput {
+  _id: String!
+  groupName: String!
+  description: String!
+  secret: Boolean!
+  mainCategory: String!
+  age: [Int!]!
+  password: String!
+  leader: UserInput!
+  createdAt: DateTime!
+  memberList: [UserInput!]!
+  scheduleList: [ScheduleInput!]!
+}
+
+input UserInput {
+  _id: String!
+  nickname: String!
+  email: String!
+  myScheduleList: [ScheduleInput!]!
+  myGroupList: [GroupInput!]!
 }
 
 type Query {
@@ -48,6 +85,8 @@ input CreateUserInput {
 }
 
 input CreateScheduleInput {
+  """user id"""
+  _id: String!
   when: String!
   spot: String!
   category: [String!]!

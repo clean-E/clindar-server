@@ -1,11 +1,10 @@
-import { Field, InputType, PickType } from '@nestjs/graphql';
-import { Schema } from 'mongoose';
-import { User } from 'src/entities';
+import { Field, InputType } from '@nestjs/graphql';
+import * as mongoose from 'mongoose';
 
 @InputType()
 export class UpdateUserInput {
   @Field(() => String)
-  id: Schema.Types.ObjectId;
+  id: mongoose.Types.ObjectId;
 
   @Field(() => String)
   nickname: string;

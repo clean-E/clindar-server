@@ -1,12 +1,16 @@
-import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { Field, InputType, Int, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Schema as MongooseSchema } from 'mongoose';
+import * as mongoose from 'mongoose';
+import { Schedule } from './schedule.entity';
+import { User } from './user.entity';
 
 @Schema()
-@ObjectType()
+@InputType('GroupInput')
+@ObjectType('Group')
 export class Group {
   @Field(() => String)
-  _id: MongooseSchema.Types.ObjectId;
+  _id: mongoose.Types.ObjectId;
+
   @Prop()
   @Field(() => String)
   groupName: string;
@@ -31,10 +35,21 @@ export class Group {
   @Field(() => String)
   password: string;
 
-  //   leader: { type: String },
-  //   createdAt: { type: String },
-  //   memberList: [{ type: String }],
-  //   schedules: [{ type: String }],
+  @Prop({ type: mongoose.Types.ObjectId, ref: 'User' })
+  @Field(() => User)
+  leader: User;
+
+  @Prop({ type: Date, default: Date() })
+  @Field(() => Date)
+  createdAt: Date;
+
+  @Prop({ type: [mongoose.Types.ObjectId], ref: 'User' })
+  @Field(() => [User])
+  memberList: User[];
+
+  @Prop({ type: [mongoose.Types.ObjectId], ref: 'Schedule' })
+  @Field(() => [Schedule])
+  scheduleList: Schedule[];
 }
 
-export const ScheduleSchema = SchemaFactory.createForClass(Group);
+export const GroupSchema = SchemaFactory.createForClass(Group);

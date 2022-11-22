@@ -22,16 +22,12 @@ export class UserService {
     if (user === null) {
       const session = await this.connection.startSession();
       // 회원 정보가 없음, 첫 로그인 -> 유저 정보 생성
-      session.startTransaction();
-      try {
+
+      await session.withTransaction(async () => {
+        userInfo['myScheduleList'] = [];
         user = await this.userModel.create(userInfo);
-        await session.commitTransaction();
-      } catch (error) {
-        await session.abortTransaction();
-        throw error;
-      } finally {
-        session.endSession();
-      }
+      });
+      session.endSession();
     }
     return user;
   }

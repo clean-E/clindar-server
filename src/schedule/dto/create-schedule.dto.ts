@@ -4,6 +4,9 @@ import { User } from 'src/entities';
 
 @InputType()
 export class CreateScheduleInput {
+  @Field(() => String, { description: 'user id' })
+  _id: mongoose.Types.ObjectId;
+
   @Field(() => String)
   when: string;
 
@@ -18,4 +21,8 @@ export class CreateScheduleInput {
 
   @Field(() => String)
   host: mongoose.Types.ObjectId;
+
+  // @Field(() => String)
+  // group: mongoose.Types.ObjectId;
+  // guest
 }

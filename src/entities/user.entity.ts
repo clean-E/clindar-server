@@ -1,6 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { Group } from './group.entity';
 import { Schedule } from './schedule.entity';
 
 @Schema()
@@ -17,9 +18,15 @@ export class User {
   @Prop()
   @Field(() => String)
   email: string;
+
+  @Prop({ type: [mongoose.Types.ObjectId], ref: 'Schedule' })
+  @Field(() => [Schedule])
+  myScheduleList: Schedule[];
+
+  @Prop({ type: [mongoose.Types.ObjectId], ref: 'Group' })
+  @Field(() => [Group])
+  myGroupList: Group[];
   /*
-  myScheduleList
-  myGroupList
   myRecord
   */
 }
