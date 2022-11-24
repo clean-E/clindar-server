@@ -1,6 +1,7 @@
 import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+import { Group } from './group.entity';
 import { User } from './user.entity';
 
 @Schema()
@@ -31,7 +32,10 @@ export class Schedule {
   host: User;
 
   // guest
-  // group
+
+  @Prop({ type: mongoose.Types.ObjectId, ref: 'Group' })
+  @Field(() => Group)
+  group: Group;
 }
 
 export const ScheduleSchema = SchemaFactory.createForClass(Schedule);
