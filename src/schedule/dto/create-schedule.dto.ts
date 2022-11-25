@@ -22,7 +22,9 @@ export class CreateScheduleInput {
   @Field(() => String)
   host: mongoose.Types.ObjectId;
 
-  // @Field(() => String)
-  // group: mongoose.Types.ObjectId;
-  // guest
+  @Field(() => [String])
+  guest: mongoose.Types.ObjectId[];
+
+  @Field(() => String)
+  group: mongoose.Types.ObjectId;
 }

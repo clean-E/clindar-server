@@ -2,6 +2,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Group } from './group.entity';
+import { Records } from './records.entity';
 import { Schedule } from './schedule.entity';
 
 export type UserDocument = User & mongoose.Document;
@@ -28,9 +29,10 @@ export class User {
   @Prop({ type: [mongoose.Types.ObjectId], ref: 'Group' })
   @Field(() => [Group])
   myGroupList: Group[];
-  /*
-  myRecord
-  */
+
+  @Prop({ type: [mongoose.Types.ObjectId], ref: 'Records' })
+  @Field(() => [Records])
+  myRecordList: Records[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

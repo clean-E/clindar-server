@@ -9,6 +9,7 @@ type Schedule {
   category: [String!]!
   memo: String!
   host: User!
+  group: Group!
 }
 
 type Group {
@@ -19,7 +20,7 @@ type Group {
   mainCategory: String!
   age: [Int!]!
   password: String!
-  leader: User!
+  leader: String!
   createdAt: DateTime!
   memberList: [User!]!
   scheduleList: [Schedule!]!
@@ -30,12 +31,26 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type Record {
+  level: String!
+  nameOrColor: String!
+  count: Int!
+}
+
+type Records {
+  _id: String!
+  schedule: Schedule!
+  user: User!
+  records: [Record!]!
+}
+
 type User {
   _id: String!
   nickname: String!
   email: String!
   myScheduleList: [Schedule!]!
   myGroupList: [Group!]!
+  myRecordList: [Records!]!
 }
 
 input ScheduleInput {
@@ -45,6 +60,7 @@ input ScheduleInput {
   category: [String!]!
   memo: String!
   host: UserInput!
+  group: GroupInput!
 }
 
 input GroupInput {
@@ -55,10 +71,23 @@ input GroupInput {
   mainCategory: String!
   age: [Int!]!
   password: String!
-  leader: UserInput!
+  leader: String!
   createdAt: DateTime!
   memberList: [UserInput!]!
   scheduleList: [ScheduleInput!]!
+}
+
+input RecordInput {
+  level: String!
+  nameOrColor: String!
+  count: Int!
+}
+
+input RecordsInput {
+  _id: String!
+  schedule: ScheduleInput!
+  user: UserInput!
+  records: [RecordInput!]!
 }
 
 input UserInput {
@@ -67,6 +96,7 @@ input UserInput {
   email: String!
   myScheduleList: [ScheduleInput!]!
   myGroupList: [GroupInput!]!
+  myRecordList: [RecordsInput!]!
 }
 
 type Query {
@@ -92,4 +122,6 @@ input CreateScheduleInput {
   category: [String!]!
   memo: String!
   host: String!
+  guest: [String!]!
+  group: String!
 }

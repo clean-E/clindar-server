@@ -2,6 +2,7 @@ import { Field, InputType, ObjectType } from '@nestjs/graphql';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { Group } from './group.entity';
+import { Records } from './records.entity';
 import { User } from './user.entity';
 
 @Schema()
@@ -31,7 +32,9 @@ export class Schedule {
   @Field(() => User)
   host: User;
 
-  // guest
+  // @Prop({ type: [mongoose.Types.ObjectId], ref: 'Records' })
+  // @Field(() => [Records])
+  // guest: Records[];
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'Group' })
   @Field(() => Group)

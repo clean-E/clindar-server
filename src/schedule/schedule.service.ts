@@ -16,7 +16,9 @@ export class ScheduleService {
   ) {}
   async getScheduleDetail(_id: string): Promise<Schedule> {
     const schedule = await this.scheduleModel.findById(_id);
-    await schedule.populated('host');
+    await schedule.populate('host');
+    // await (await schedule.populate('guest')).populate('nickname');
+    // await schedule.populate('group');
     return schedule;
   }
 
