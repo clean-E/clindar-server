@@ -2,18 +2,23 @@ import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
 import { User } from 'src/entities';
+import { Records } from 'src/entities/records.entity';
 import { Schedule } from 'src/entities/schedule.entity';
 import { CreateScheduleInput } from './dto/create-schedule.dto';
 
 @Injectable()
 export class ScheduleService {
   constructor(
-    @InjectModel(Schedule.name)
-    private readonly scheduleModel: Model<Schedule>,
     @InjectModel(User.name)
     private readonly userModel: Model<User>,
+    @InjectModel(Schedule.name)
+    private readonly scheduleModel: Model<Schedule>,
+    @InjectModel(Records.name)
+    private readonly recordsModel: Model<Records>,
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
+  //async getMySchedule()
+  //async getGroupSchedule()
   async getScheduleDetail(_id: string): Promise<Schedule> {
     const schedule = await this.scheduleModel.findById(_id);
     await schedule.populate('host');
@@ -31,6 +36,7 @@ export class ScheduleService {
       session.startTransaction();
 
       newSchedule = await this.scheduleModel.create(schedule);
+
       await this.userModel.findByIdAndUpdate(userId, {
         $push: { myScheduleList: newSchedule._id },
       });
@@ -43,4 +49,9 @@ export class ScheduleService {
     }
     return newSchedule;
   }
+  // async editSchedule()
+  // async deleteSchedule()
+  // async joinSchedule()
+  // async comeoutSchedule()
+  // async inviteSchedule()
 }

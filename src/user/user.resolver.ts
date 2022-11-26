@@ -11,6 +11,11 @@ export class UserResolver {
     return await this.userService.getUser(id);
   }
 
+  @Query(() => [User])
+  async getAllUser() {
+    return await this.userService.getAllUser();
+  }
+
   @Mutation(() => User)
   async login(@Args('userInfo') userInfo: CreateUserInput) {
     return await this.userService.login(userInfo);

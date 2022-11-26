@@ -15,6 +15,9 @@ export class UserService {
   async getUser(id: string): Promise<User> {
     return await this.userModel.findById(id);
   }
+  async getAllUser(): Promise<User[]> {
+    return await this.userModel.find();
+  }
   async login(userInfo: CreateUserInput): Promise<User> {
     const { email } = userInfo;
     const user = await this.userModel.findOne({ email });
@@ -39,4 +42,7 @@ export class UserService {
     }
     return user ? user : newUser;
   }
+
+  // async setNickname()
+  // async deleteUser()
 }

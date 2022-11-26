@@ -32,9 +32,9 @@ export class Schedule {
   @Field(() => User)
   host: User;
 
-  // @Prop({ type: [mongoose.Types.ObjectId], ref: 'Records' })
-  // @Field(() => [Records])
-  // guest: Records[];
+  @Prop({ type: [mongoose.Types.ObjectId], ref: 'Records' })
+  @Field(() => [Records])
+  guest: Records[];
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'Group' })
   @Field(() => Group)

@@ -36,7 +36,7 @@ export class Group {
   password: string;
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'User' })
-  @Field(() => String)
+  @Field(() => User)
   leader: User['nickname'];
 
   @Prop({ type: Date, default: Date.now })
