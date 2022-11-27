@@ -2,35 +2,6 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Schedule {
-  _id: String!
-  when: String!
-  spot: String!
-  category: [String!]!
-  memo: String!
-  host: User!
-  group: Group!
-}
-
-type Group {
-  _id: String!
-  groupName: String!
-  description: String!
-  secret: Boolean!
-  mainCategory: String!
-  age: [Int!]!
-  password: String!
-  leader: String!
-  createdAt: DateTime!
-  memberList: [User!]!
-  scheduleList: [Schedule!]!
-}
-
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
-
 type Record {
   level: String!
   nameOrColor: String!
@@ -44,6 +15,36 @@ type Records {
   records: [Record!]!
 }
 
+type Schedule {
+  _id: String!
+  when: String!
+  spot: String!
+  category: [String!]!
+  memo: String!
+  host: User!
+  guest: [Records!]!
+  group: Group!
+}
+
+type Group {
+  _id: String!
+  groupName: String!
+  description: String!
+  secret: Boolean!
+  password: String!
+  mainCategory: String!
+  age: [Int!]!
+  leader: User!
+  createdAt: DateTime!
+  memberList: [User!]!
+  scheduleList: [Schedule!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
 type User {
   _id: String!
   nickname: String!
@@ -51,30 +52,6 @@ type User {
   myScheduleList: [Schedule!]!
   myGroupList: [Group!]!
   myRecordList: [Records!]!
-}
-
-input ScheduleInput {
-  _id: String!
-  when: String!
-  spot: String!
-  category: [String!]!
-  memo: String!
-  host: UserInput!
-  group: GroupInput!
-}
-
-input GroupInput {
-  _id: String!
-  groupName: String!
-  description: String!
-  secret: Boolean!
-  mainCategory: String!
-  age: [Int!]!
-  password: String!
-  leader: String!
-  createdAt: DateTime!
-  memberList: [UserInput!]!
-  scheduleList: [ScheduleInput!]!
 }
 
 input RecordInput {
@@ -90,6 +67,31 @@ input RecordsInput {
   records: [RecordInput!]!
 }
 
+input ScheduleInput {
+  _id: String!
+  when: String!
+  spot: String!
+  category: [String!]!
+  memo: String!
+  host: UserInput!
+  guest: [RecordsInput!]!
+  group: GroupInput!
+}
+
+input GroupInput {
+  _id: String!
+  groupName: String!
+  description: String!
+  secret: Boolean!
+  password: String!
+  mainCategory: String!
+  age: [Int!]!
+  leader: UserInput!
+  createdAt: DateTime!
+  memberList: [UserInput!]!
+  scheduleList: [ScheduleInput!]!
+}
+
 input UserInput {
   _id: String!
   nickname: String!
@@ -101,12 +103,14 @@ input UserInput {
 
 type Query {
   getUser(id: String!): User!
+  getAllUser: [User!]!
   getScheduleDetail(_id: String!): Schedule!
 }
 
 type Mutation {
   login(userInfo: CreateUserInput!): User!
   createSchedule(schedule: CreateScheduleInput!): Schedule!
+  createGroup(group: CreateGroupInput!): Group!
 }
 
 input CreateUserInput {
@@ -124,4 +128,15 @@ input CreateScheduleInput {
   host: String!
   guest: [String!]!
   group: String!
+}
+
+input CreateGroupInput {
+  """user id"""
+  _id: String!
+  groupName: String!
+  description: String!
+  secret: Boolean!
+  password: String!
+  mainCategory: String!
+  age: [Int!]!
 }

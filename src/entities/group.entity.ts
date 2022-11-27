@@ -25,15 +25,15 @@ export class Group {
 
   @Prop()
   @Field(() => String)
+  password: string;
+
+  @Prop()
+  @Field(() => String)
   mainCategory: string;
 
   @Prop()
   @Field(() => [Int])
   age: number[];
-
-  @Prop()
-  @Field(() => String)
-  password: string;
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'User' })
   @Field(() => User)

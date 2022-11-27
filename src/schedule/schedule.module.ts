@@ -5,6 +5,7 @@ import { Schedule, ScheduleSchema } from 'src/entities/schedule.entity';
 import { ScheduleResolver } from './schedule.resolver';
 import { ScheduleService } from './schedule.service';
 import { UserSchema } from 'src/entities/user.entity';
+import { Records, RecordsSchema } from 'src/entities/records.entity';
 
 @Module({
   imports: [
@@ -16,6 +17,10 @@ import { UserSchema } from 'src/entities/user.entity';
       {
         name: User.name,
         schema: UserSchema,
+      },
+      {
+        name: Records.name,
+        schema: RecordsSchema,
       },
     ]),
   ],
