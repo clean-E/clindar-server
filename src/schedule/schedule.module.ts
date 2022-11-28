@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { User } from 'src/entities';
+import { Group, GroupSchema, User } from 'src/entities';
 import { Schedule, ScheduleSchema } from 'src/entities/schedule.entity';
 import { ScheduleResolver } from './schedule.resolver';
 import { ScheduleService } from './schedule.service';
@@ -21,6 +21,10 @@ import { Records, RecordsSchema } from 'src/entities/records.entity';
       {
         name: Records.name,
         schema: RecordsSchema,
+      },
+      {
+        name: Group.name,
+        schema: GroupSchema,
       },
     ]),
   ],

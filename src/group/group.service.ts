@@ -1,12 +1,14 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { Group } from 'src/entities';
+import { Group, User } from 'src/entities';
 import { CreateGroupInput } from './dto/create-group.dto';
 
 @Injectable()
 export class GroupService {
   constructor(
+    @InjectModel(User.name)
+    private readonly userModel: Model<User>,
     @InjectModel(Group.name)
     private readonly groupModel: Model<Group>,
     @InjectConnection() private readonly connection: mongoose.Connection,
@@ -28,11 +30,13 @@ export class GroupService {
 
     const newGroup = await this.groupModel.create(group);
 
+    await this.userModel.findByIdAndUpdate(userId, {
+      $push: { myGroupList: newGroup._id },
+    });
+
     return await (
-      await (
-        await this.groupModel.findOne({ where: { id: newGroup.id } })
-      ).populate('leader')
-    ).populate('memberList');
+      await this.groupModel.findOne({ where: { id: newGroup.id } })
+    ).populate(['leader', 'memberList']);
   }
   // async editGroup()
   // async joinGroup()

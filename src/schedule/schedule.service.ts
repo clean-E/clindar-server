@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import mongoose, { Model } from 'mongoose';
-import { User } from 'src/entities';
+import { Group, User } from 'src/entities';
 import { Records } from 'src/entities/records.entity';
 import { Schedule } from 'src/entities/schedule.entity';
 import { CreateScheduleInput } from './dto/create-schedule.dto';
@@ -15,17 +15,29 @@ export class ScheduleService {
     private readonly scheduleModel: Model<Schedule>,
     @InjectModel(Records.name)
     private readonly recordsModel: Model<Records>,
+    @InjectModel(Group.name)
+    private readonly groupModel: Model<Group>,
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
-  //async getMySchedule()
-  //async getGroupSchedule()
   async getScheduleDetail(_id: string): Promise<Schedule> {
     const schedule = await this.scheduleModel.findById(_id);
-    await schedule.populate('host');
-    // await (await schedule.populate('guest')).populate('nickname');
-    // await schedule.populate('group');
+    await schedule.populate(['host', 'group']);
+    await schedule.populate({
+      path: 'guest',
+      populate: ['user', 'records'],
+    });
     return schedule;
   }
+
+  async getMySchedule(email: string): Promise<Schedule[]> {
+    const user = await (
+      await this.userModel.findOne({ email })
+    ).populate('myScheduleList');
+
+    return user.myScheduleList;
+  }
+
+  //async getGroupSchedule()
 
   async createSchedule(schedule: CreateScheduleInput): Promise<Schedule> {
     const userId = schedule._id;

@@ -105,6 +105,7 @@ type Query {
   getUser(id: String!): User!
   getAllUser: [User!]!
   getScheduleDetail(_id: String!): Schedule!
+  getMySchedule(email: String!): [Schedule!]!
 }
 
 type Mutation {
