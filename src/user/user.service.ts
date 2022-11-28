@@ -21,7 +21,7 @@ export class UserService {
   async login(userInfo: CreateUserInput): Promise<User> {
     const { email } = userInfo;
     const user = await this.userModel.findOne({ email });
-    let newUser;
+    let newUser: User;
     // 회원 정보가 없음, 첫 로그인 -> 유저 정보 생성
     if (user === null) {
       const session = await this.connection.startSession();

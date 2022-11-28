@@ -30,9 +30,9 @@ export class ScheduleService {
   }
 
   async getMySchedule(email: string): Promise<Schedule[]> {
-    const user = await (
-      await this.userModel.findOne({ email })
-    ).populate('myScheduleList');
+    const user = await this.userModel.findOne({ email }, null, {
+      populate: 'myScheduleList',
+    });
 
     return user.myScheduleList;
   }

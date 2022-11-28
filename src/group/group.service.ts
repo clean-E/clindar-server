@@ -34,9 +34,9 @@ export class GroupService {
       $push: { myGroupList: newGroup._id },
     });
 
-    return await (
-      await this.groupModel.findOne({ where: { id: newGroup.id } })
-    ).populate(['leader', 'memberList']);
+    return await this.groupModel.findOne({ id: newGroup.id }, null, {
+      populate: ['leader', 'memberList'],
+    });
   }
   // async editGroup()
   // async joinGroup()
