@@ -37,7 +37,20 @@ export class ScheduleService {
     return user.myScheduleList;
   }
 
-  //async getGroupSchedule()
+  async getGroupSchedule(email: string): Promise<Schedule[]> {
+    const user = await this.userModel.findOne({ email });
+    await user.populate({
+      path: 'myGroupList',
+      populate: 'scheduleList',
+    });
+
+    let groupSchedule: Schedule[];
+    for (const group of user.myGroupList) {
+      groupSchedule = [...groupSchedule, ...group.scheduleList];
+    }
+
+    return groupSchedule;
+  }
 
   async createSchedule(schedule: CreateScheduleInput): Promise<Schedule> {
     const userId = schedule._id;

@@ -17,6 +17,11 @@ export class ScheduleResolver {
     return await this.scheduleService.getMySchedule(email);
   }
 
+  @Query(() => [Schedule])
+  async getGroupSchedule(@Args('email') email: string) {
+    return await this.scheduleService.getGroupSchedule(email);
+  }
+
   @Mutation(() => Schedule)
   async createSchedule(@Args('schedule') schedule: CreateScheduleInput) {
     return await this.scheduleService.createSchedule(schedule);

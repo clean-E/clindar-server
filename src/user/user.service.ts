@@ -3,7 +3,8 @@ import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User, UserDocument } from 'src/entities';
-import { CreateUserInput } from './dto/create-user.dto';
+import { UserInput } from './dto/create-user.dto';
+import { ApolloError } from 'apollo-server-express';
 
 @Injectable()
 export class UserService {
@@ -18,7 +19,7 @@ export class UserService {
   async getAllUser(): Promise<User[]> {
     return await this.userModel.find();
   }
-  async login(userInfo: CreateUserInput): Promise<User> {
+  async login(userInfo: UserInput): Promise<User> {
     const { email } = userInfo;
     const user = await this.userModel.findOne({ email });
     let newUser: User;
@@ -43,6 +44,15 @@ export class UserService {
     return user ? user : newUser;
   }
 
-  // async setNickname()
+  async setNickname(userInfo: UserInput): Promise<User> {
+    const { email, nickname } = userInfo;
+    const nicknameExist = await this.userModel.exists({ nickname });
+
+    if (nicknameExist) {
+      throw new ApolloError('Duplicated Nickname', 'DUPLICATED_NICKNAME');
+    } else {
+      return await this.userModel.findOneAndUpdate({ email }, { nickname });
+    }
+  }
   // async deleteUser()
 }
