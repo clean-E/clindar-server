@@ -37,7 +37,7 @@ export class Group {
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'User' })
   @Field(() => User)
-  leader: User['nickname'];
+  leader: User;
 
   @Prop({ type: Date, default: Date.now })
   @Field(() => Date)

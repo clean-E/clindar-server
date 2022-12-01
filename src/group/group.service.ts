@@ -15,7 +15,9 @@ export class GroupService {
   ) {}
 
   // async checkDuplicateGroupName()
-  // async getAllGroup()
+  async getAllGroup(): Promise<Group[]> {
+    return await this.groupModel.find();
+  }
   // async getMyGroup()
   // async getGroupDetail()
   // async openSecretGroup()
