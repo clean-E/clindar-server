@@ -65,6 +65,7 @@ export class ScheduleService {
       await this.userModel.findByIdAndUpdate(userId, {
         $push: { myScheduleList: newSchedule._id },
       });
+
       await session.commitTransaction();
     } catch (error) {
       await session.abortTransaction();

@@ -18,8 +18,16 @@ export class GroupService {
   async getAllGroup(): Promise<Group[]> {
     return await this.groupModel.find();
   }
-  // async getMyGroup()
-  // async getGroupDetail()
+  async getMyGroup(id: string): Promise<Group[]> {
+    const user = await this.userModel.findById(id).populate('myGroupList');
+
+    return user.myGroupList;
+  }
+  async getGroupDetail(id: string): Promise<Group> {
+    return await this.groupModel.findById(id, null, {
+      populate: ['leader', 'memberList', 'scheduleList'],
+    });
+  }
   // async openSecretGroup()
   async createGroup(group: CreateGroupInput): Promise<Group> {
     const userId = group._id;
