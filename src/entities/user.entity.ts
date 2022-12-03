@@ -23,15 +23,15 @@ export class User {
   email: string;
 
   @Prop({ type: [mongoose.Types.ObjectId], ref: 'Schedule' })
-  @Field(() => [Schedule])
+  @Field(() => [Schedule], { nullable: true })
   myScheduleList: Schedule[];
 
   @Prop({ type: [mongoose.Types.ObjectId], ref: 'Group' })
-  @Field(() => [Group])
+  @Field(() => [Group], { nullable: true })
   myGroupList: Group[];
 
   @Prop({ type: [mongoose.Types.ObjectId], ref: 'Records' })
-  @Field(() => [Records])
+  @Field(() => [Records], { nullable: true })
   myRecordList: Records[];
 }
 

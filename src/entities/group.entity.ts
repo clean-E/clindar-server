@@ -24,7 +24,7 @@ export class Group {
   secret: boolean;
 
   @Prop()
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   password: string;
 
   @Prop()
@@ -48,7 +48,7 @@ export class Group {
   memberList: User[];
 
   @Prop({ type: [mongoose.Types.ObjectId], ref: 'Schedule' })
-  @Field(() => [Schedule])
+  @Field(() => [Schedule], { nullable: true })
   scheduleList: Schedule[];
 }
 

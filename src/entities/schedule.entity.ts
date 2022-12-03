@@ -37,7 +37,7 @@ export class Schedule {
   guest: Records[];
 
   @Prop({ type: mongoose.Types.ObjectId, ref: 'Group' })
-  @Field(() => Group)
+  @Field(() => Group, { nullable: true })
   group: Group;
 }
 

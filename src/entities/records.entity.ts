@@ -40,7 +40,7 @@ export class Records {
       count: Number,
     }),
   )
-  @Field(() => [Record])
+  @Field(() => [Record], { nullable: true })
   records: Record[];
 }
 

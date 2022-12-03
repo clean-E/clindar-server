@@ -16,7 +16,7 @@ export class CreateScheduleInput {
   @Field(() => [String])
   category: string[];
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   memo: string;
 
   @Field(() => String)
@@ -25,6 +25,6 @@ export class CreateScheduleInput {
   @Field(() => [String])
   guest: mongoose.Types.ObjectId[];
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   group: mongoose.Types.ObjectId;
 }

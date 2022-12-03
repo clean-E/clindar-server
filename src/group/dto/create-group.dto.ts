@@ -10,13 +10,13 @@ export class CreateGroupInput {
   @Field(() => String)
   groupName: string;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   description: string;
 
   @Field(() => Boolean)
   secret: boolean;
 
-  @Field(() => String)
+  @Field(() => String, { nullable: true })
   password: string;
 
   @Field(() => String)
