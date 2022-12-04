@@ -14,7 +14,9 @@ export class GroupService {
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
 
-  // async checkDuplicateGroupName()
+  async checkDuplicateGroupName(groupName: string): Promise<boolean> {
+    return (await this.groupModel.exists({ groupName })) ? true : false;
+  }
   async getAllGroup(): Promise<Group[]> {
     return await this.groupModel.find();
   }
