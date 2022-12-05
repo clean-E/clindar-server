@@ -51,7 +51,21 @@ export class GroupService {
     });
   }
   // async editGroup()
-  // async joinGroup()
+  async joinGroup(groupId: string, userId: string): Promise<Group> {
+    await this.groupModel.updateOne(
+      { _id: groupId },
+      { $push: { memberList: userId } },
+    );
+
+    await this.userModel.updateOne(
+      { _id: userId },
+      { $push: { myGroupList: groupId } },
+    );
+
+    return await this.groupModel.findById(groupId, null, {
+      populate: ['leader', 'memberList'],
+    });
+  }
   // async leaveGroup()
   // async deleteGroup()
   // async changeLeader()
