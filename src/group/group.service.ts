@@ -40,11 +40,18 @@ export class GroupService {
     group['memberList'] = [userId];
     group['scheduleList'] = [];
 
-    const newGroup = await this.groupModel.create(group);
+    let newGroup;
+    try {
+      this.connection.transaction(async (session) => {
+        newGroup = await this.groupModel.create(group);
 
-    await this.userModel.findByIdAndUpdate(userId, {
-      $push: { myGroupList: newGroup._id },
-    });
+        await this.userModel.findByIdAndUpdate(userId, {
+          $push: { myGroupList: newGroup._id },
+        });
+      });
+    } catch (e) {
+      throw e;
+    }
 
     return await this.groupModel.findOne({ id: newGroup.id }, null, {
       populate: ['leader', 'memberList'],
