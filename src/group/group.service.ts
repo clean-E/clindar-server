@@ -45,9 +45,13 @@ export class GroupService {
       this.connection.transaction(async (session) => {
         newGroup = await this.groupModel.create(group);
 
-        await this.userModel.findByIdAndUpdate(userId, {
-          $push: { myGroupList: newGroup._id },
-        });
+        await this.userModel.findByIdAndUpdate(
+          userId,
+          {
+            $push: { myGroupList: newGroup._id },
+          },
+          { session },
+        );
       });
     } catch (e) {
       throw e;
