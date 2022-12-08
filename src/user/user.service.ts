@@ -3,8 +3,9 @@ import { InjectConnection, InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { User, UserDocument } from 'src/entities';
-import { UserInput } from './dto/create-user.dto';
+import { CreateUserInput } from './dto/create-user.dto';
 import { ApolloError } from 'apollo-server-express';
+import { UpdateUserInput } from './dto/update-user.dto';
 
 @Injectable()
 export class UserService {
@@ -13,13 +14,13 @@ export class UserService {
     private readonly userModel: Model<UserDocument>,
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
-  async getUser(id: string): Promise<User> {
-    return await this.userModel.findById(id);
+  async getUser(email: string): Promise<User> {
+    return await this.userModel.findOne({ email });
   }
   async getAllUser(): Promise<User[]> {
     return await this.userModel.find();
   }
-  async login(userInfo: UserInput): Promise<User> {
+  async login(userInfo: CreateUserInput): Promise<User> {
     const { email } = userInfo;
     const user = await this.userModel.findOne({ email });
     let newUser: User;
@@ -44,7 +45,7 @@ export class UserService {
     return user ? user : newUser;
   }
 
-  async setNickname(userInfo: UserInput): Promise<User> {
+  async setNickname(userInfo: UpdateUserInput): Promise<User> {
     const { email, nickname } = userInfo;
     const nicknameExist = await this.userModel.exists({ nickname });
 

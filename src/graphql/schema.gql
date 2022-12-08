@@ -12,7 +12,7 @@ type Records {
   _id: String!
   schedule: Schedule!
   user: User!
-  records: [Record!]!
+  records: [Record!]
 }
 
 type Schedule {
@@ -23,7 +23,7 @@ type Schedule {
   memo: String!
   host: User!
   guest: [Records!]!
-  group: Group!
+  group: Group
 }
 
 type Group {
@@ -31,13 +31,13 @@ type Group {
   groupName: String!
   description: String!
   secret: Boolean!
-  password: String!
+  password: String
   mainCategory: String!
   age: [Int!]!
   leader: User!
   createdAt: DateTime!
   memberList: [User!]!
-  scheduleList: [Schedule!]!
+  scheduleList: [Schedule!]
 }
 
 """
@@ -49,9 +49,9 @@ type User {
   _id: String!
   nickname: String!
   email: String!
-  myScheduleList: [Schedule!]!
-  myGroupList: [Group!]!
-  myRecordList: [Records!]!
+  myScheduleList: [Schedule!]
+  myGroupList: [Group!]
+  myRecordList: [Records!]
 }
 
 input RecordInput {
@@ -64,7 +64,7 @@ input RecordsInput {
   _id: String!
   schedule: ScheduleInput!
   user: UserInput!
-  records: [RecordInput!]!
+  records: [RecordInput!]
 }
 
 input ScheduleInput {
@@ -75,7 +75,7 @@ input ScheduleInput {
   memo: String!
   host: UserInput!
   guest: [RecordsInput!]!
-  group: GroupInput!
+  group: GroupInput
 }
 
 input GroupInput {
@@ -83,38 +83,46 @@ input GroupInput {
   groupName: String!
   description: String!
   secret: Boolean!
-  password: String!
+  password: String
   mainCategory: String!
   age: [Int!]!
   leader: UserInput!
   createdAt: DateTime!
   memberList: [UserInput!]!
-  scheduleList: [ScheduleInput!]!
+  scheduleList: [ScheduleInput!]
 }
 
 input UserInput {
   _id: String!
   nickname: String!
   email: String!
-  myScheduleList: [ScheduleInput!]!
-  myGroupList: [GroupInput!]!
-  myRecordList: [RecordsInput!]!
+  myScheduleList: [ScheduleInput!]
+  myGroupList: [GroupInput!]
+  myRecordList: [RecordsInput!]
 }
 
 type Query {
-  getUser(id: String!): User!
+  getUser(email: String!): User!
   getAllUser: [User!]!
   getScheduleDetail(_id: String!): Schedule!
   getMySchedule(email: String!): [Schedule!]!
+  getGroupSchedule(email: String!): [Schedule!]!
 }
 
 type Mutation {
   login(userInfo: CreateUserInput!): User!
+  setNickname(userInfo: UpdateUserInput!): User!
   createSchedule(schedule: CreateScheduleInput!): Schedule!
   createGroup(group: CreateGroupInput!): Group!
 }
 
 input CreateUserInput {
+  nickname: String!
+  email: String!
+}
+
+input UpdateUserInput {
+  id: String!
   nickname: String!
   email: String!
 }
@@ -125,19 +133,19 @@ input CreateScheduleInput {
   when: String!
   spot: String!
   category: [String!]!
-  memo: String!
+  memo: String
   host: String!
   guest: [String!]!
-  group: String!
+  group: String
 }
 
 input CreateGroupInput {
   """user id"""
   _id: String!
   groupName: String!
-  description: String!
+  description: String
   secret: Boolean!
-  password: String!
+  password: String
   mainCategory: String!
   age: [Int!]!
 }

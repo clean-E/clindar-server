@@ -1,14 +1,15 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { User } from 'src/entities';
-import { UserInput } from './dto/create-user.dto';
+import { CreateUserInput } from './dto/create-user.dto';
+import { UpdateUserInput } from './dto/update-user.dto';
 import { UserService } from './user.service';
 
 @Resolver()
 export class UserResolver {
   constructor(private readonly userService: UserService) {}
   @Query(() => User)
-  async getUser(@Args('id') id: string) {
-    return await this.userService.getUser(id);
+  async getUser(@Args('email') email: string) {
+    return await this.userService.getUser(email);
   }
 
   @Query(() => [User])
@@ -17,12 +18,12 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async login(@Args('userInfo') userInfo: UserInput) {
+  async login(@Args('userInfo') userInfo: CreateUserInput) {
     return await this.userService.login(userInfo);
   }
 
   @Mutation(() => User)
-  async setNickname(@Args('userInfo') userInfo: UserInput) {
+  async setNickname(@Args('userInfo') userInfo: UpdateUserInput) {
     return await this.userService.setNickname(userInfo);
   }
 }
