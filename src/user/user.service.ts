@@ -15,7 +15,12 @@ export class UserService {
     @InjectConnection() private readonly connection: mongoose.Connection,
   ) {}
   async getUser(email: string): Promise<User> {
-    return await this.userModel.findOne({ email });
+    const user = await this.userModel.findOne({ email });
+    if (user) {
+      return user;
+    } else {
+      throw new ApolloError('User Not Found', 'USER_NOT_FOUND');
+    }
   }
   async getAllUser(): Promise<User[]> {
     return await this.userModel.find();
