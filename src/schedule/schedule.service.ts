@@ -56,14 +56,37 @@ export class ScheduleService {
     const userId = schedule._id;
     delete schedule._id;
     const session = await this.connection.startSession();
-    let newSchedule: Schedule;
+    let newSchedule;
     try {
       session.startTransaction();
+      if (!schedule.group) {
+        schedule.group = null;
+      }
 
       newSchedule = await this.scheduleModel.create(schedule);
 
       await this.userModel.findByIdAndUpdate(userId, {
         $push: { myScheduleList: newSchedule._id },
+      });
+
+      if (schedule.group) {
+        await this.groupModel.findOneAndUpdate(schedule.group, {
+          $push: { scheduleList: newSchedule._id },
+        });
+      }
+
+      const guest = await Promise.all(
+        schedule.guest.map(async (id) => {
+          const newRecord = await this.recordsModel.create({
+            schedule: newSchedule._id,
+            user: id,
+            records: [],
+          });
+          return newRecord._id;
+        }),
+      );
+      await this.scheduleModel.findOneAndUpdate(newSchedule._id, {
+        guest,
       });
 
       await session.commitTransaction();
@@ -73,6 +96,13 @@ export class ScheduleService {
     } finally {
       session.endSession();
     }
+    newSchedule = await this.scheduleModel.findById(newSchedule._id);
+    await newSchedule.populate(['host', 'group']);
+    await newSchedule.populate({
+      path: 'guest',
+      populate: ['user', 'records'],
+    });
+    console.log(newSchedule);
     return newSchedule;
   }
   // async editSchedule()
